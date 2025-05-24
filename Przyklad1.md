@@ -1,4 +1,4 @@
-## Zadanie 1
+## Podstawowe operacje w ArangoDB
 
 W tym zadaniu zajmiemy się podstawowymi funkcjonalnościami ArangoDB, czyli tworzeniem użytkowników, baz danych, kolekcji oraz wstawianiem, pobieraniem, edytowaniem i usuwaniem dokumentów.
 

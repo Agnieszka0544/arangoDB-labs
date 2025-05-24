@@ -39,4 +39,4 @@ Aby stworzyć i uruchomić instancję serwera ArangoDB, użyjmy następującego 
 docker compose up --detach
 ```
 
-W ten sposób uruchomimy instancję serwera ArangoDB w tle, który będzie dostępny pod adresem `http://localhost:8529`.
+W ten sposób uruchomimy instancję serwera ArangoDB w tle, który będzie dostępny pod adresem http://localhost:8529.

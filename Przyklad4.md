@@ -6,11 +6,11 @@ W ArangoDB możemy tworzyć specjalnie kolekcje krawędziowe, które wskazują n
 2. Uzupełnijmy ją danymi z pliku [ChildOf.json](./ChildOf.json):
    ```sql
    FOR rel in @relations
-   INSERT {
-    _from: CONCAT("Characters/", rel.child),
-    _to: CONCAT("Characters/", rel.parent)
-   } INTO ChildOf
-   RETURN NEW
+      INSERT {
+         _from: CONCAT("Characters/", rel.child),
+         _to: CONCAT("Characters/", rel.parent)
+      } INTO ChildOf
+      RETURN NEW
    ```
    Widzimy w tym zapytaniu szczególny rodzaj pola w dokumentach krawdędziowych - `_from` i `_to`.
 3. Wywołajmy zapytanie grafowe:
@@ -34,7 +34,7 @@ W ArangoDB możemy tworzyć specjalnie kolekcje krawędziowe, które wskazują n
    ```sql
    FOR c IN Characters
     FILTER c.name == "Tywin"
-    FOR v IN 2..2 OUTBOUND c ChildOf
+    FOR v IN 2..2 INBOUND c ChildOf
       RETURN v.name
    ```
    Widzimy, że `Joffrey` wypisał się dwa razy - to dlatego, że od wierzchołka `Tywin` można do niego dojść dwiema ścieżkami. Moglibyśmy to naprawić używając `RETURN DISTINCT v.name`, lepszym podejściem może być jednak użycie opcji przeglądania grafu, np. BFS:
