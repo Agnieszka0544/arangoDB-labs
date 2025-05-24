@@ -1,0 +1,16 @@
+[
+  { "parent": "ned", "child": "robb" },
+  { "parent": "ned", "child": "sansa" },
+  { "parent": "ned", "child": "arya" },
+  { "parent": "ned", "child": "bran" },
+  { "parent": "catelyn", "child": "robb" },
+  { "parent": "catelyn", "child": "sansa" },
+  { "parent": "catelyn", "child": "arya" },
+  { "parent": "catelyn", "child": "bran" },
+  { "parent": "ned", "child": "jon" },
+  { "parent": "tywin", "child": "jaime" },
+  { "parent": "tywin", "child": "cersei" },
+  { "parent": "tywin", "child": "tyrion" },
+  { "parent": "cersei", "child": "joffrey" },
+  { "parent": "jaime", "child": "joffrey" }
+]
