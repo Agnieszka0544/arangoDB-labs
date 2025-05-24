@@ -23,7 +23,7 @@ Zalogujmy się teraz jako użytkownik `user` do bazy `got`, odpowiednie przycisk
 
 ### Tworzenie kolekcji
 
-Z przyczyn bliżej mi nieznanych, nie można stworzyć kolekcji z poziomu AQL. Zamiast tego, możemy to zrobić z zakładki `Collections` w lewym panelu.
+Nie można stworzyć kolekcji z poziomu AQL - wynika to z tego, jak ten język jest zaprojektowany. Zamiast tego, możemy to zrobić z zakładki `Collections` w lewym panelu.
 
 1. Klikamy na ikonę `Collections` w lewym panelu.
 2. Klikamy przycisk `Add collection`.
@@ -47,18 +47,21 @@ Dane do kolekcji możemy już dodać z poziomu AQL.
    } INTO Characters RETURN NEW
    ```
 
-3. Teraz w zakładce `Collections` możemy podejrzeć nowo wpisany dokument.
-4. Tworzymy zapytanie, które wstawi dane do kolekcji `Characters`:
+3. W prawym dolnym rogu klikamy przycisk `Execute`.
+4. Teraz w zakładce `Collections` możemy podejrzeć nowo wpisany dokument.
+5. Tworzymy zapytanie, które wstawi dane do kolekcji `Characters`. P
 
    ```sql
    FOR d IN @data
      INSERT d INTO Characters
    ```
 
-5. Powyższy syntax służy do wstawienia danych z dowiązanej zmiennej. Po prawej stronie można wstawić wartość zmiennej `data`. Wstawmy tam dane z pliku [`Characters.json`](./Characters.json):
-6. W prawym dolnym rogu klikamy przycisk `Execute`.
-7. Ciekawostka - AQL nie pozwala na wielokrotne użycie `INSERT` w jednym zapytaniu - trzeba użyć `FOR` i `INSERT` w pętli.
-8. Podejrzyjmy teraz naszą kolekcję za pomocą zapytania:
+   Powyższy syntax służy do wstawienia danych z dowiązanej zmiennej.
+
+   Ciekawostka - AQL nie pozwala na wielokrotne użycie `INSERT` w jednym zapytaniu - trzeba użyć `FOR` i `INSERT` w pętli.
+
+6. Po prawej stronie można wstawić wartość zmiennej `data`. Wstawmy tam dane z pliku [`Characters.json`](./Characters.json):
+7. Podejrzyjmy teraz naszą kolekcję za pomocą zapytania:
 
    ```sql
    FOR c IN Characters

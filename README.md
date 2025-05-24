@@ -10,7 +10,7 @@ W pierwszej kolejności należy pobrać obraz ArangoDB:
 docker pull arangodb:latest
 ```
 
-W przypadku, gdyby nie udało się automatycznie pobrać obrazu dla architektury hosta, można wymusić pobranie obrazu dla konkretnej architektury:
+Gyby nie udało się automatycznie pobrać obrazu dla architektury hosta, można wymusić pobranie obrazu dla konkretnej architektury:
 
 ### amd64
 
@@ -36,7 +36,7 @@ cd arangoDB-labs
 Aby stworzyć i uruchomić instancję serwera ArangoDB, użyjmy następującego polecenia:
 
 ```bash
-docker run --detach --publish 8529:8529 --env ARANGO_ROOT_PASSWORD=root --name arangodb-instance --volume .:/data arangodb
+docker compose up --detach
 ```
 
-W ten sposób uruchomimy instancję serwera ArangoDB w tle, który będzie dostępny pod adresem `http://localhost:8529`. Ustawiamy również hasło dla użytkownika root na `root`.
+W ten sposób uruchomimy instancję serwera ArangoDB w tle, który będzie dostępny pod adresem `http://localhost:8529`.

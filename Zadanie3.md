@@ -8,7 +8,7 @@ Na potrzeby stworzenia kolekcji, skorzystamy z RESTful API ArangoDB. Skorzystamy
 2. Na górnym pasku wybieramy zakładkę `REST API`.
 3. Znajdujemy sekcję `Collections` i w niej operację `POST`.
 4. Rozwijamy ją i naciskamy `Try it out`.
-5. Wpisujemy `Traits` do pola `database-name`.
+5. Wpisujemy `got` do pola `database-name`.
 6. Jako `request body` wpisujemy:
 
    ```json

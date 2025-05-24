@@ -1,0 +1,11 @@
+name: arangodb-labs
+services:
+  arangodb:
+    image: arangodb:latest
+    container_name: arangodb-instance
+    ports:
+      - "8529:8529"
+    environment:
+      ARANGO_ROOT_PASSWORD: root
+    volumes:
+      - .:/data

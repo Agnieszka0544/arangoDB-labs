@@ -3,7 +3,7 @@
 1. W terminalu uruchamiamy `arangosh`:
 
    ```bash
-   docker exec -it arangodb-instance arangosh --server.username user --server.database got
+   docker compose exec arangodb arangosh --server.username user --server.database got
    ```
 
 2. Wpisujemy hasło i naciskamy `Enter`.
