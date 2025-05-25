@@ -18,10 +18,10 @@
      UPDATE c WITH { label: c.name } IN Characters
 
    FOR t IN Traits
-     UPDATE t WITH { label: t.name } IN Traits
+     UPDATE t WITH { label: t.en } IN Traits
    ```
 
-4. Tworzymy nazwany graf `CharactersAndTraits` poprzez interfejs webowy, jako wierzchołki wybieramy kolekcje `Characters` oraz `Traits`, a jako krawędź `Is`.
+4. Tworzymy nazwany graf `CharactersAndTraits` poprzez interfejs webowy, jako wierzchołki wybieramy kolekcje `Characters` oraz `Traits`, a jako krawędzie `Is`.
 
 5. Wyświetlamy graf i otwieramy zakładkę `Settings`.
 6. W sekcji `Graph` ustawiamy `depth` na odpowiednio dużą liczbę (np. `512`), aby pokryć cały graf.
