@@ -1,9 +1,9 @@
 ### Geolokalizacja
 
-ArangoDB posiada wbudowane wsparcie dla geolokalizacji. Możemy tworzyć kolekcje, które będą przechowywały dane geograficzne i wykonywać na nich zapytania. Kolekcje te nie polegają na osobnym typie danych, tylko na tworzeniu specjalnych indeksów. Zobaczmy, jak tego użyć:
+ArangoDB posiada wbudowane wsparcie dla geolokalizacji. Możemy tworzyć kolekcje, które będą przechowywały dane geograficzne i wykonywać na nich zapytania. Kolekcje te nie korzystają z osobnego, specjalnego typu danych, tylko tworzą specjalne indeksy. Zobaczmy, jak tego użyć:
 
 1. Stwórzmy kolekcję `Locations` z poziomu interfejsu webowego.
-2. Uzupełnijmy ją danymi z pliku [Locations.json](./Locations.json):
+2. Uzupełnijmy ją danymi z pliku [Locations.json](./Dane-do-przykladow/Locations.json):
    ```sql
    FOR loc IN @locations
      INSERT loc INTO Locations
@@ -21,7 +21,7 @@ ArangoDB posiada wbudowane wsparcie dla geolokalizacji. Możemy tworzyć kolekcj
    5. Wybierzmy typ indeksu `Geo Index`.
    6. W polu `Fields` wpiszmy `coordinates`.
    7. Zaznaczmy opcję `GeoJSON` i kliknijmy `Create`.
-5. Odnajdźmy teraz lokację najbliższą Wydziałowi WMiI (koordynaty `50.030192560043375`, `19.906854470049637`):
+5. Odnajdźmy teraz w kolekcji lokalizację najbliższą Wydziałowi WMiI (współrzędne geograficzne: `50.030192560043375`, `19.906854470049637`):
    ```sql
    FOR loc IN Locations
     LET distance_m = DISTANCE(loc.coordinates[0], loc.coordinates[1], 53.0302, 19.9069)

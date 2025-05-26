@@ -1,15 +1,15 @@
 ## Łączenie dokumentów
 
-W naszej kolekcji `Characters` dokumenty posiadają pole `traits`, które zawiera tablicę symbolicznych oznaczeń cech postaci. Będziemy chcieli połączyć dokumenty z `Characters` tak, aby w dokumencie znajdowały się faktycznie cechy, a nie tylko ich symbole.
+W naszej kolekcji `Characters` dokumenty posiadają pole `traits`, które zawiera tablicę symbolicznych oznaczeń cech postaci. Stworzymy kolekcję `Traits`, mapującą symboliczne oznaczenia na nazwy konkretnych cech postaci. Będziemy chcieli połączyć dokumenty z `Characters` z cechami z `Traits` tak, aby w dokumencie znajdowały się faktycznie cechy, a nie tylko ich symbole.
 
-Na potrzeby stworzenia kolekcji, skorzystamy z RESTful API ArangoDB. Skorzystamy z interfejsu webowego.
+Na potrzeby stworzenia kolekcji, skorzystamy z RESTful API ArangoDB za pośrednictwem interfejsu webowego. Będziemy pracować na wcześniej utworzonej bazie danych `got`.
 
-1. Przejdźmy do zakładki `Support` w lewym panelu.
+1. Przechodzimy do zakładki `Support` z lewego panelu.
 2. Na górnym pasku wybieramy zakładkę `REST API`.
-3. Znajdujemy sekcję `Collections` i w niej operację `POST`.
-4. Rozwijamy ją i naciskamy `Try it out`.
-5. Wpisujemy `got` do pola `database-name`.
-6. Jako `request body` wpisujemy:
+3. Znajdujemy sekcję `Collections` i w niej operację `POST`, którą rozwijamy.
+4. Naciskamy `Try it out`.
+5. Wpisujemy `got` w polu `database-name`.
+6. Jako `request body` podajemy:
 
    ```json
    {
@@ -17,31 +17,32 @@ Na potrzeby stworzenia kolekcji, skorzystamy z RESTful API ArangoDB. Skorzystamy
    }
    ```
 
-7. Klikamy `Execute` i sprawdzamy, czy kolekcja została stworzona. Możemy to zrobić w zakładce `Collections` w lewym panelu.
+7. Klikamy `Execute` i sprawdzamy, czy kolekcja została stworzona. Możemy skorzystać z wyświetlonej poniżej `Execute` odpowiedzi HTTP lub otworzyć listę kolekcji w zakładce `Collections` w lewym panelu.
 
-8. Teraz uzupełnijmy kolekcję `Traits` danymi z pliku [Traits.json](./Traits.json).
-9. Przejdźmy do sekcji `Document` i znajdźmy drugą operację `POST`.
-10. Uzupełnijmy ją danymi `database-name` `got` i `collection-name` `Traits`.
-11. W polu `request body` podajmy JSONa z pliku.
-12. Klikamy `Execute` i sprawdzamy, czy kolekcja została uzupełniona.
-13. Teraz już używając zakładki `Queries` możemy zrobić pseudo-joina:
+Teraz uzupełnimy kolekcję `Traits` danymi z pliku [Traits.json](./Dane-do-przykladow/Traits.json).
+
+8. Pozostając w zakładce `REST API`, przejdźmy do sekcji `Documents`. Znajdźmy drugą od góry operację `POST` (z dopiskiem `Create multiple documents`) i rozwińmy ją.
+9. Kliknijmy `Try it out` i podajmy dane: `database-name` - `got` i `collection` - `Traits`.
+10. W polu `request body` podajmy JSONa z pliku [Traits.json](./Dane-do-przykladow/Traits.json).
+11. Klikamy `Execute` i sprawdzamy, czy kolekcja została uzupełniona.
+12. Teraz, używając zakładki `Queries`, możemy zmapować każdą postać na dokument reprezentujący jej cechy.
     ```sql
     FOR c IN Characters
       RETURN DOCUMENT("Traits", c.traits)
     ```
-14. Otrzymaliśmy mapowanie postaci do dokumentów reprezentujących ich cechy. Możemy ograniczyć to tylko do interesujących nas pól:
+13. Otrzymaliśmy mapowanie postaci do dokumentów reprezentujących ich cechy. Możemy ograniczyć to tylko do interesujących nas pól (nazw cech postaci w języku angielskim):
     ```sql
     FOR c IN Characters
       RETURN DOCUMENT("Traits", c.traits)[*].en
     ```
-    Użyty tutaj syntax `[*]` to tzw. `array expansion`, który mapuje każdy element tablicy tylko do pojedynczego elementu.
-15. Teraz połączmy to z naszymi postaciami używając `MERGE`:
+    Użyty tutaj syntax `[*]` to tzw. `array expansion`, który mapuje każdy element tablicy na pojedynczą wartość atrybutu.
+14. Teraz połączmy otrzymane przed chwilą tablice cech z naszymi postaciami, używając `MERGE`:
     ```sql
     FOR c IN Characters
       RETURN MERGE(c, { traits: DOCUMENT("Traits", c.traits)[*].en } )
     ```
-    Efektywnie otrzymaliśmy dokumenty, w którym pole `traits` zostało nadpisane na elementy z kolekcji `Traits`.
-16. Optymalniejszym rozwiązaniem jest nie używanie polecenia `DOCUMENT`, a użycie `FOR` i `FILTER`:
+    Otrzymaliśmy dokumenty, w którym pole `traits` zostało nadpisane elementami z kolekcji `Traits`.
+15. Optymalniejszym rozwiązaniem jest użycie `FOR` i `FILTER` zamiast polecenia `DOCUMENT`:
     ```sql
     FOR c IN Characters
       RETURN MERGE(c, {
@@ -53,4 +54,4 @@ Na potrzeby stworzenia kolekcji, skorzystamy z RESTful API ArangoDB. Skorzystamy
         )
       })
     ```
-    Według twórców, takie zapytanie potrafi być dużo lepiej zoptymalizowane przez silnik bazy danych. Ponadto też możemy zrobić dopasowania nie tylko po kluczu.
+    Według twórców, takie zapytanie jest dużo lepiej zoptymalizowane przez silnik bazy danych. Ponadto tym sposobem możemy zrobić dopasowania nie tylko po kluczu.

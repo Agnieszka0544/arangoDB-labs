@@ -1,7 +1,7 @@
 ### Graf cech
 
 1. Tworzymy kolekcję krawędziową `Is` poprzez interfejs webowy.
-2. Uzupełniamy ją następującym zapytaniem:
+2. Uzupełniamy ją korzystając z następującego zapytania:
    ```sql
    FOR c IN Characters
     FOR t IN Traits
@@ -11,7 +11,7 @@
         _to: t._id,
       } INTO Is
    ```
-3. Do kolekcji `Characters` oraz `Traits` dodajemy pole `label`:
+3. Do dokumentów z kolekcji `Characters` oraz `Traits` dodajemy pole `label`:
 
    ```sql
    FOR c IN Characters
@@ -21,9 +21,9 @@
      UPDATE t WITH { label: t.en } IN Traits
    ```
 
-4. Tworzymy nazwany graf `CharactersAndTraits` poprzez interfejs webowy, jako wierzchołki wybieramy kolekcje `Characters` oraz `Traits`, a jako krawędzie `Is`.
+4. Poprzez interfejs webowy tworzymy graf nazwany `CharactersAndTraits`. Wierzchołkami będą dokumenty z kolekcji `Characters` oraz `Traits`, a krawędziami dokumenty z kolekcji `Is`.
 
-5. Wyświetlamy graf i otwieramy zakładkę `Settings`.
+5. Wyświetlamy graf (klikając w jego nazwę wyświetlaną na liście w zakładce `Graphs`) i klikamy przycisk `Settings`.
 6. W sekcji `Graph` ustawiamy `depth` na odpowiednio dużą liczbę (np. `512`), aby pokryć cały graf.
 7. W sekcji `Node` ustawiamy `Node label` na `label`, aby wyświetlać etykiety wierzchołków.
 8. Podziwiamy nasz piękny graf 🥳

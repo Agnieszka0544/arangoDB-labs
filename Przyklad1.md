@@ -1,40 +1,41 @@
 ## Podstawowe operacje w ArangoDB
 
-W tym zadaniu zajmiemy się podstawowymi funkcjonalnościami ArangoDB, czyli tworzeniem użytkowników, baz danych, kolekcji oraz wstawianiem, pobieraniem, edytowaniem i usuwaniem dokumentów.
+Korzystając z tego przykładu przedstawimy podstawowe funkcjonalności ArangoDB, czyli tworzenie użytkowników, baz danych, kolekcji oraz wstawianie, pobieranie, edytowanie i usuwanie dokumentów.
 
 ### Tworzenie nowego użytkownika
 
-Po wejściu do interfejsu webowego ArangoDB (http://localhost:8529) i zalogowaniu się jako użytkownik root, można utworzyć nowego użytkownika.
+Po wejściu do interfejsu webowego ArangoDB (http://localhost:8529) i zalogowaniu się jako użytkownik root (hasło: `root`), można utworzyć nowego użytkownika.
 
 1. Przy logowaniu wybieramy (póki co) jedyną dostępną bazę danych, czyli `_system`.
-2. Następnie klikamy na ikonę "Users" w lewym panelu.
-3. Stwórzmy użytkownika `user` z hasłem `user`, żeby później nie musieć korzystać z konta root.
+2. Następnie klikamy ikonę "Users" w lewym panelu.
+3. Klikamy przycisk `Add user`.
+4. Tworzymy użytkownika `user` z hasłem `user`, żeby później nie musieć korzystać z konta root.
 
 ### Tworzenie nowej bazy danych
 
-Pozostająć w bazie `_system`, możemy stworzyć nową bazę danych, która będzie wykorzystywana w dalszej części ćwiczeń.
+Pozostając w bazie `_system`, tworzymy nową bazę danych, która będzie wykorzystywana w dalszej części ćwiczeń.
 
-1. Klikamy na ikonę `Databases` w lewym panelu.
+1. Klikamy ikonę `Databases` w lewym panelu.
 2. Klikamy przycisk `Add database`.
-3. Na potrzeby zadania, nazwijmy ją `got` i stwórzmy ją.
-4. Poniżej ustawmy uprawnienia administratora dla użytkownika `user`, którego stworzyliśmy wcześniej.
+3. Na potrzeby zadania, nadajmy bazie danych nazwę `got` i poniżej, w sekcji konfiguracji, ustawmy uprawnienia administratora dla użytkownika `user`, którego stworzyliśmy wcześniej.
+4. Przyciskiem `Create` stwórzmy bazę danych.
 
-Zalogujmy się teraz jako użytkownik `user` do bazy `got`, odpowiednie przyciski znajdują się w prawym górnym rogu.
+Zalogujmy się teraz jako użytkownik `user` do bazy `got` (odpowiednie przyciski znajdują się w prawym górnym rogu strony).
 
 ### Tworzenie kolekcji
 
-Nie można stworzyć kolekcji z poziomu AQL - wynika to z tego, jak ten język jest zaprojektowany. Zamiast tego, możemy to zrobić z zakładki `Collections` w lewym panelu.
+Nie można stworzyć kolekcji z poziomu AQL - tak ten język jest zaprojektowany. Zamiast tego, możemy to zrobić z zakładki `Collections` w lewym panelu.
 
-1. Klikamy na ikonę `Collections` w lewym panelu.
+1. Klikamy ikonę `Collections` w lewym panelu.
 2. Klikamy przycisk `Add collection`.
-3. Wybieramy typ kolekcji `Document` i nadajemy jej nazwę `Characters` i tworzymy ją.
+3. Wybieramy typ kolekcji `Document`, nadajemy jej nazwę `Characters` i tworzymy ją.
 
 ### Wstawianie danych do kolekcji
 
 Dane do kolekcji możemy już dodać z poziomu AQL.
 
-1. Klikamy na ikonę `Queries` w lewym panelu.
-2. Zacznijmy najpierw od testowego zapytania, który doda prosty dokument do kolekcji `Characters`:
+1. Klikamy w ikonę `Queries` w lewym panelu.
+2. Zacznijmy od testowego zapytania, które doda prosty dokument do kolekcji `Characters`:
 
    ```sql
    INSERT {
@@ -47,9 +48,9 @@ Dane do kolekcji możemy już dodać z poziomu AQL.
    } INTO Characters RETURN NEW
    ```
 
-3. W prawym dolnym rogu klikamy przycisk `Execute`.
-4. Teraz w zakładce `Collections` możemy podejrzeć nowo wpisany dokument.
-5. Tworzymy zapytanie, które wstawi dane do kolekcji `Characters`. P
+3. W prawym dolnym rogu klikamy przycisk `Execute`. Na dole strony pojawi się informacja o wykonaniu zapytania.
+4. W zakładce `Collections` możemy podejrzeć nowo wpisany dokument.
+5. Tworzymy zapytanie, które wstawi dane do kolekcji `Characters`.
 
    ```sql
    FOR d IN @data
@@ -60,17 +61,20 @@ Dane do kolekcji możemy już dodać z poziomu AQL.
 
    Ciekawostka - AQL nie pozwala na wielokrotne użycie `INSERT` w jednym zapytaniu - trzeba użyć `FOR` i `INSERT` w pętli.
 
-6. Po prawej stronie można wstawić wartość zmiennej `data`. Wstawmy tam dane z pliku [`Characters.json`](./Characters.json):
-7. Podejrzyjmy teraz naszą kolekcję za pomocą zapytania:
+6. Po prawej stronie znajduje się pole, w którym należy podać wartość zmiennej `data`. Wstawmy tam dane z pliku [`Characters.json`](./Dane-do-przykladow/Characters.json).
+7. Kliknijmy przycisk `Execute`.
+8. Podejrzyjmy teraz naszą kolekcję za pomocą zapytania:
 
    ```sql
    FOR c IN Characters
      RETURN c
    ```
 
+   Po wykonaniu zapytania na dole strony pojawi się "tabela" z danymi.
+
 ### Pobieranie konkretnego dokumentu
 
-Aby otrzymać konkretny dokument z kolekcji, możemy to zrobić na kilka sposobów. Jednym z nich jest użycie polecenia `DOCUMENT`:
+Istnieje kilka sposobów na znalezienie konkretnego dokumentu w kolekcji. Jednym z nich jest użycie polecenia `DOCUMENT`:
 
 ```sql
 RETURN DOCUMENT("Characters", "ned")
@@ -86,7 +90,7 @@ RETURN DOCUMENT("Characters", ["ned", "arya"])
 // -- RETURN DOCUMENT("Characters/ned", "Characters/arya")
 ```
 
-W tym przypadku jesteśmy jednak ograniczeni do dopasowaniu dokumentów tylko po ich kluczu. Możemy też użyć polecenia `FILTER`, aby pobrać dokumenty, które spełniają określone warunki:
+W tym przypadku jesteśmy jednak ograniczeni do dopasowania dokumentów tylko po ich kluczu. Możemy zamiast tego użyć polecenia `FILTER`, aby pobrać dokumenty, które spełniają określone warunki:
 
 ```sql
 FOR c IN Characters
@@ -96,7 +100,7 @@ FOR c IN Characters
 
 ### Edytowanie dokumentów
 
-Aby edytować dokumenty, możemy użyć polecenia `UPDATE`:
+Aby edytować pojedyncze atrybuty w dokumencie, możemy użyć polecenia `UPDATE`:
 
 ```sql
 UPDATE "ned" WITH { alive: false } IN Characters
@@ -123,13 +127,13 @@ FOR c IN Characters
 
 ### Usuwanie dokumentów
 
-Aby usunąć dokumenty, możemy użyć polecenia `REMOVE`. Możemy usunąć nasz wpis testowy:
+Aby usunąć dokumenty, możemy użyć polecenia `REMOVE`. Usuńmy nasz wpis testowy:
 
 ```sql
 REMOVE "test" IN Characters
 ```
 
-Możemy też usunąć dokumenty w pętli:
+Dokumenty możemy też usuwać w pętli:
 
 ```sql
 FOR c IN Characters

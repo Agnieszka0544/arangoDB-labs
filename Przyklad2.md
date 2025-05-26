@@ -1,12 +1,12 @@
 ## Korzystanie z arangosh
 
-1. W terminalu uruchamiamy `arangosh`:
+1. W terminalu w katalogu `arangoDB-labs` uruchamiamy `arangosh`:
 
    ```bash
    docker compose exec arangodb arangosh --server.username user --server.database got
    ```
 
-2. Wpisujemy hasło i naciskamy `Enter`.
+2. Wpisujemy hasło (`user`) i naciskamy `Enter`.
 
 3. `arangosh` to tak naprawdę maszyna JavaScriptu, która posiada odpowiednie dowiązania w globalnym kontekście. Możemy podejrzeć co dokładnie tam się znajduje pisząc:
 
@@ -19,13 +19,13 @@
 5. Odtwórzmy dokumenty z naszej kolekcji `Characters` z pliku `Characters.json`:
 
    ```js
-   const charactersJSON = require("/data/Characters.json");
+   const charactersJSON = require("/data/data/Characters.json");
    for (const character of charactersJSON) {
      db.Characters.insert(character);
    }
    ```
 
-6. Podejrzmy naszą odtworzoną kolekcję:
+6. Wyświetlmy zawartość naszej odtworzonej kolekcji:
 
    ```js
    db.Characters.toArray();

@@ -2,7 +2,7 @@
 
 ## Instalacja (Docker)
 
-Niezbędnym prerekwizytem jest zainstalowany Docker, w szczególności najlepiej posiadać zainstalowany Docker Desktop.
+Prerekwizyt: zainstalowany Docker, najlepiej Docker Desktop.
 
 W pierwszej kolejności należy pobrać obraz ArangoDB:
 
